@@ -22,6 +22,7 @@ Fluxo de branches: [`docs/GITFLOW.md`](docs/GITFLOW.md).
 | Cartões + fixos (linha Cartões derivada) | #8 | entregue |
 | Parcelas / recorrências | #9 | TODO |
 | Dashboard do mês | #10 | entregue |
+| Identidade visual (tema + planilha) | #13 | em progresso · [`docs/DESIGN.md`](docs/DESIGN.md) |
 | Import Excel + resumo anual | #11–#12 | TODO |
 
 Fora do corte inicial: multi-usuário (#14), mobile (#15), sugestões IA (#16); import multi-ano (#25), gráficos mês/ano (#26–#27).

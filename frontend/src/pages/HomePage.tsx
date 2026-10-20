@@ -14,25 +14,25 @@ export function HomePage() {
     <main className="mx-auto flex min-h-screen max-w-lg flex-col justify-center gap-6 px-6 py-16">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <p className="text-sm font-medium uppercase tracking-[0.2em] text-accent">Finances</p>
-          <h1 className="mt-2 font-display text-4xl font-semibold tracking-tight text-ink">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-accent">Finances</p>
+          <h1 className="mt-2 text-4xl font-semibold tracking-tight text-ink">
             Olá, {user?.name.split(' ')[0] ?? 'você'}
           </h1>
           <p className="mt-3 text-muted">
-            Organize o mês como na planilha — comece pelo período e o valor de Caixa.
+            Abra o mês na planilha — Caixa, a pagar, cartões e saldos num único quadro.
           </p>
         </div>
         <button
           type="button"
           onClick={logout}
-          className="shrink-0 rounded-lg border border-line px-3 py-1.5 text-sm text-muted hover:border-accent hover:text-accent"
+          className="shrink-0 rounded border border-line px-3 py-1.5 text-sm text-muted hover:border-accent hover:text-accent"
         >
           Sair
         </button>
       </div>
 
-      <section className="rounded-2xl border border-line bg-surface p-5 shadow-sm">
-        <h2 className="text-sm font-semibold uppercase tracking-wide text-muted">Conta</h2>
+      <section className="rounded-xl border border-line bg-surface px-5 py-4 shadow-sheet">
+        <h2 className="text-[11px] font-semibold uppercase tracking-wide text-muted">Conta</h2>
         <dl className="mt-3 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-sm">
           <dt className="text-muted">e-mail</dt>
           <dd>{user?.email}</dd>
@@ -43,7 +43,7 @@ export function HomePage() {
 
       <Link
         to={currentPeriodPath()}
-        className="rounded-2xl bg-accent px-5 py-4 text-center text-sm font-semibold text-white shadow-sm"
+        className="rounded-xl bg-accent px-5 py-4 text-center text-sm font-semibold text-paper shadow-sheet"
       >
         Abrir mês atual
       </Link>
@@ -51,13 +51,13 @@ export function HomePage() {
       <nav className="grid grid-cols-2 gap-3">
         <Link
           to={paths.accounts}
-          className="rounded-2xl border border-line bg-surface px-4 py-3 text-center text-sm font-medium text-ink shadow-sm hover:border-accent"
+          className="rounded-xl border border-line bg-surface px-4 py-3 text-center text-sm font-medium text-ink hover:border-accent"
         >
           Contas
         </Link>
         <Link
           to={paths.parties}
-          className="rounded-2xl border border-line bg-surface px-4 py-3 text-center text-sm font-medium text-ink shadow-sm hover:border-accent"
+          className="rounded-xl border border-line bg-surface px-4 py-3 text-center text-sm font-medium text-ink hover:border-accent"
         >
           Partes
         </Link>
