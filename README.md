@@ -18,9 +18,11 @@ Fluxo de branches: [`docs/GITFLOW.md`](docs/GITFLOW.md).
 | Auth JWT | #4 | entregue |
 | Períodos + Caixa | #5 | entregue |
 | Contas e partes | #6 | entregue |
-| Lançamentos (A pagar / receber / saídas / outras) | #7 | em progresso |
-| Cartões + fixos / parcelas | #8–#9 | TODO |
-| Dashboard do mês + import Excel + resumo anual | #10–#12 | TODO |
+| Lançamentos (A pagar / receber / saídas / outras) | #7 | entregue |
+| Cartões + fixos (linha Cartões derivada) | #8 | em progresso |
+| Parcelas / recorrências | #9 | TODO |
+| Dashboard do mês | #10 | em progresso (junto com #8) |
+| Import Excel + resumo anual | #11–#12 | TODO |
 
 Fora do corte inicial: multi-usuário (#14), mobile (#15), sugestões IA (#16); import multi-ano (#25), gráficos mês/ano (#26–#27).
 
