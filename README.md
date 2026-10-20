@@ -21,7 +21,7 @@ Fluxo de branches: [`docs/GITFLOW.md`](docs/GITFLOW.md).
 | Lançamentos / cartão / parcelas | #7–#9 | TODO |
 | Dashboard do mês + import Excel + resumo anual | #10–#12 | TODO |
 
-Fora do corte inicial: multi-usuário (#14), mobile (#15), sugestões IA (#16).
+Fora do corte inicial: multi-usuário (#14), mobile (#15), sugestões IA (#16); import multi-ano (#25), gráficos mês/ano (#26–#27).
 
 ## Stack
 
