@@ -1,1 +1,71 @@
-# finances-api
+# Finances
+
+**Versão:** `0.1.0`
+
+Controle **financeiro pessoal** (web + API) inspirado na planilha mensal *Financeiro*, no padrão de monorepo **Giro Auto / Connect 3D Things**.
+
+Planejamento: [GitHub Project — Finances — MVP](https://github.com/users/guilhermealbino33/projects/9) · Issues do repositório.
+
+## MVP (corte)
+
+| Capacidade | Issue | Status |
+|---|---|---|
+| Bootstrap monorepo | #1 | em progresso |
+| Modelo de domínio (planilha) | #3 | TODO |
+| Auth JWT | #4 | TODO |
+| Períodos / Caixa / lançamentos / cartão / parcelas | #5–#9 | TODO |
+| Dashboard do mês + import Excel + resumo anual | #10–#12 | TODO |
+
+Fora do corte inicial: multi-usuário (#14), mobile (#15), sugestões IA (#16).
+
+## Stack
+
+| Camada | Tecnologia |
+|---|---|
+| Backend | NestJS · TypeORM · PostgreSQL |
+| Web | React · Vite · Tailwind CSS |
+| Contratos | `@finances/shared` (TypeScript) |
+
+## Arquitetura
+
+Monorepo **npm workspaces** com monólito modular NestJS:
+
+- `crosscutting/` — config tipada, database (entities/migrations index), ValidationPipe
+- `modules/<feature>/` — controllers, services, dto, entities
+- TypeORM com `synchronize: false` + migrations explícitas
+- Pacote `packages/shared` como contrato de tipos
+
+Detalhes: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
+
+### Estrutura alvo
+
+```
+finances-api/
+├── package.json
+├── docker-compose.yml           # Postgres :5446
+├── backend/                     # NestJS — :3002/api
+├── frontend/                    # Vite + React — :8081
+└── packages/shared/             # @finances/shared
+```
+
+## Setup rápido
+
+```bash
+cp backend/.env.example backend/.env
+cp frontend/.env.example frontend/.env
+docker compose up -d
+npm install
+npm run backend:dev      # http://localhost:3002/api/health
+npm run frontend:dev     # http://localhost:8081
+# ou ambos: npm run dev
+```
+
+| Serviço | URL / porta |
+|---|---|
+| API health | http://localhost:3002/api/health |
+| Web | http://localhost:8081 |
+| Postgres | `localhost:5446` (user/pass/db: `finances`) |
+
+## Fluxo de trabalho
+
+GitFlow simplificado: branches `feature/#N/slug` a partir de `develop`, PR → `develop`. Ver issue #2 para `docs/GITFLOW.md`.
