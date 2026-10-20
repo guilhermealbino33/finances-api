@@ -48,6 +48,26 @@ class EnvironmentVariables {
   @IsString()
   @IsOptional()
   DATABASE_SSL: string;
+
+  @IsString()
+  @IsOptional()
+  JWT_SECRET: string;
+
+  @IsString()
+  @IsOptional()
+  JWT_EXPIRES_IN: string;
+
+  @IsString()
+  @IsOptional()
+  SEED_USER_EMAIL: string;
+
+  @IsString()
+  @IsOptional()
+  SEED_USER_PASSWORD: string;
+
+  @IsString()
+  @IsOptional()
+  SEED_USER_NAME: string;
 }
 
 export function validate(config: Record<string, unknown>) {

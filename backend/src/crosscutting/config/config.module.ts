@@ -1,6 +1,6 @@
 import { Module, Global } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { databaseConfig, serverConfig } from './namespaces';
+import { authConfig, databaseConfig, serverConfig } from './namespaces';
 import { validate } from './env.validation';
 import * as path from 'path';
 
@@ -20,7 +20,7 @@ const monorepoRoot = path.resolve(backendRoot, '..');
         path.resolve(process.cwd(), '../.env'),
       ],
       ignoreEnvFile: process.env.NODE_ENV === 'production',
-      load: [databaseConfig, serverConfig],
+      load: [databaseConfig, serverConfig, authConfig],
     }),
   ],
   exports: [ConfigModule],

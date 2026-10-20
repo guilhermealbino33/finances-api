@@ -1,4 +1,5 @@
-/** Rotas do app (placeholder no bootstrap — cresce com as features). */
+/** Rotas do app. */
 export const paths = {
   home: '/',
+  login: '/login',
 } as const;

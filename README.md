@@ -14,8 +14,8 @@ Fluxo de branches: [`docs/GITFLOW.md`](docs/GITFLOW.md).
 |---|---|---|
 | Bootstrap monorepo | #1 | entregue |
 | GitFlow + Kanban | #2 | entregue |
-| Modelo de domínio (planilha) | #3 | em progresso · [`docs/DOMAIN.md`](docs/DOMAIN.md) |
-| Auth JWT | #4 | TODO |
+| Modelo de domínio (planilha) | #3 | entregue · [`docs/DOMAIN.md`](docs/DOMAIN.md) |
+| Auth JWT | #4 | em progresso |
 | Períodos / Caixa / lançamentos / cartão / parcelas | #5–#9 | TODO |
 | Dashboard do mês + import Excel + resumo anual | #10–#12 | TODO |
 
@@ -68,6 +68,17 @@ npm run frontend:dev     # http://localhost:8081
 | API health | http://localhost:3002/api/health |
 | Web | http://localhost:8081 |
 | Postgres | `localhost:5446` (user/pass/db: `finances`) |
+
+### Seed local (auth)
+
+No boot da API (#4), se ainda não existir:
+
+| | |
+|---|---|
+| E-mail | `guilhermealbino33@gmail.com` |
+| Senha | `finances123` |
+
+Sobrescreva com `SEED_USER_*` / `JWT_SECRET` em `backend/.env` (ver `.env.example`).
 
 ## Fluxo de trabalho
 
