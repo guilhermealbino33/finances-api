@@ -16,8 +16,9 @@ Fluxo de branches: [`docs/GITFLOW.md`](docs/GITFLOW.md).
 | GitFlow + Kanban | #2 | entregue |
 | Modelo de domínio (planilha) | #3 | entregue · [`docs/DOMAIN.md`](docs/DOMAIN.md) |
 | Auth JWT | #4 | entregue |
-| Períodos + Caixa | #5 | em progresso |
-| Lançamentos / cartão / parcelas | #6–#9 | TODO |
+| Períodos + Caixa | #5 | entregue |
+| Contas e partes | #6 | em progresso |
+| Lançamentos / cartão / parcelas | #7–#9 | TODO |
 | Dashboard do mês + import Excel + resumo anual | #10–#12 | TODO |
 
 Fora do corte inicial: multi-usuário (#14), mobile (#15), sugestões IA (#16).
@@ -70,16 +71,20 @@ npm run frontend:dev     # http://localhost:8081
 | Web | http://localhost:8081 |
 | Postgres | `localhost:5446` (user/pass/db: `finances`) |
 
-### Seed local (auth)
+### Seed local (auth + contas/partes)
 
-No boot da API (#4), se ainda não existir:
+No boot da API, se ainda não existirem (idempotente):
 
 | | |
 |---|---|
 | E-mail | `guilhermealbino33@gmail.com` |
 | Senha | `finances123` |
+| Contas | Cartões (`CARD`), C6 (`CARD`), Dinheiro (`CASH`), BB (`BANK`) |
+| Partes | Gui, Udo, Vivi, Danilo |
 
 Sobrescreva com `SEED_USER_*` / `JWT_SECRET` em `backend/.env` (ver `.env.example`).
+
+Telas: `/contas` e `/partes` (API `GET/POST/PATCH /api/accounts` e `/api/parties`).
 
 ## Fluxo de trabalho
 
