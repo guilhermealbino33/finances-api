@@ -1,27 +1,41 @@
-import type { MvpEntrySection } from '@finances/shared';
+import type { EditableEntrySection } from '@finances/shared';
 
-export const MVP_SECTION_META: Record<
-  MvpEntrySection,
-  { title: string; hint: string; totalKey: 'totalPayables' | 'totalReceivables' | 'totalCashOut' | 'totalOtherIncome' }
+export const SECTION_META: Record<
+  EditableEntrySection,
+  { title: string; hint: string }
 > = {
   PAYABLE: {
     title: 'A pagar',
-    hint: 'Exceto linha Cartões (derivada na #8).',
-    totalKey: 'totalPayables',
+    hint: 'Obrigações do mês. Linha Cartões é calculada (não editável).',
   },
   RECEIVABLE: {
     title: 'A receber',
     hint: 'Opcional: vincular uma parte (Gui, Udo…).',
-    totalKey: 'totalReceivables',
+  },
+  CARD_ITEM: {
+    title: 'Cartões',
+    hint: 'Itens da fatura (compras, Geral, parcelas).',
+  },
+  CARD_FIXED: {
+    title: 'Fixos (cartão)',
+    hint: 'Assinaturas e fixos cobrados no cartão.',
   },
   CASH_OUT: {
     title: 'Saídas',
     hint: 'Saídas em dinheiro.',
-    totalKey: 'totalCashOut',
   },
   OTHER_INCOME: {
     title: 'Outras entradas',
     hint: 'Benefícios e entradas extras.',
-    totalKey: 'totalOtherIncome',
   },
 };
+
+/** Ordem visual do dashboard (mapa mental da planilha). */
+export const DASHBOARD_SECTIONS: EditableEntrySection[] = [
+  'PAYABLE',
+  'RECEIVABLE',
+  'CARD_ITEM',
+  'CARD_FIXED',
+  'CASH_OUT',
+  'OTHER_INCOME',
+];

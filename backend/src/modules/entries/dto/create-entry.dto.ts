@@ -10,7 +10,7 @@ import {
   MinLength,
   ValidateIf,
 } from 'class-validator';
-import { MVP_ENTRY_SECTIONS, type MvpEntrySection } from '@finances/shared';
+import { EDITABLE_ENTRY_SECTIONS, type EditableEntrySection } from '@finances/shared';
 
 export class CreateEntryDto {
   @Type(() => Number)
@@ -18,8 +18,8 @@ export class CreateEntryDto {
   @Min(1)
   periodId: number;
 
-  @IsIn(MVP_ENTRY_SECTIONS)
-  section: MvpEntrySection;
+  @IsIn(EDITABLE_ENTRY_SECTIONS)
+  section: EditableEntrySection;
 
   @IsString()
   @MinLength(1)
@@ -35,6 +35,20 @@ export class CreateEntryDto {
   @IsString()
   @MaxLength(80)
   dueLabel?: string | null;
+
+  @IsOptional()
+  @ValidateIf((_, v) => v !== null && v !== undefined)
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  installmentCurrent?: number | null;
+
+  @IsOptional()
+  @ValidateIf((_, v) => v !== null && v !== undefined)
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  installmentTotal?: number | null;
 
   @IsOptional()
   @ValidateIf((_, v) => v !== null && v !== undefined)

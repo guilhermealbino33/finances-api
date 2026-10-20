@@ -13,6 +13,8 @@ import { EntryEntity } from '../entities/entry.entity';
 import { CreateEntryDto } from '../dto/create-entry.dto';
 import { UpdateEntryDto } from '../dto/update-entry.dto';
 
+const CARD_SECTIONS: EntrySection[] = ['CARD_ITEM', 'CARD_FIXED'];
+
 @Injectable()
 export class EntriesService {
   constructor(
@@ -48,6 +50,12 @@ export class EntriesService {
     await this.periodsService.getById(userId, dto.periodId);
     await this.assertAccount(userId, dto.accountId);
     await this.assertParty(userId, dto.partyId);
+    this.assertInstallments(dto.installmentCurrent, dto.installmentTotal);
+
+    let accountId = dto.accountId ?? null;
+    if (accountId == null && CARD_SECTIONS.includes(dto.section)) {
+      accountId = await this.resolveDefaultCardAccountId(userId);
+    }
 
     let sortOrder = dto.sortOrder ?? null;
     if (sortOrder == null) {
@@ -70,9 +78,9 @@ export class EntriesService {
       description: dto.description.trim(),
       amount: dto.amount,
       dueLabel: this.nullableTrim(dto.dueLabel),
-      installmentCurrent: null,
-      installmentTotal: null,
-      accountId: dto.accountId ?? null,
+      installmentCurrent: dto.installmentCurrent ?? null,
+      installmentTotal: dto.installmentTotal ?? null,
+      accountId,
       partyId: dto.partyId ?? null,
       seriesId: null,
       notes: this.nullableTrim(dto.notes),
@@ -91,6 +99,18 @@ export class EntriesService {
     if (dto.notes !== undefined) row.notes = this.nullableTrim(dto.notes);
     if (dto.sortOrder !== undefined) row.sortOrder = dto.sortOrder;
 
+    if (dto.installmentCurrent !== undefined || dto.installmentTotal !== undefined) {
+      const current =
+        dto.installmentCurrent !== undefined
+          ? dto.installmentCurrent
+          : row.installmentCurrent;
+      const total =
+        dto.installmentTotal !== undefined ? dto.installmentTotal : row.installmentTotal;
+      this.assertInstallments(current, total);
+      if (dto.installmentCurrent !== undefined) row.installmentCurrent = dto.installmentCurrent;
+      if (dto.installmentTotal !== undefined) row.installmentTotal = dto.installmentTotal;
+    }
+
     if (dto.accountId !== undefined) {
       await this.assertAccount(userId, dto.accountId);
       row.accountId = dto.accountId;
@@ -107,6 +127,30 @@ export class EntriesService {
   async remove(userId: number, id: number): Promise<void> {
     const row = await this.getById(userId, id);
     await this.repo.remove(row);
+  }
+
+  private async resolveDefaultCardAccountId(userId: number): Promise<number | null> {
+    const preferred = await this.accountsRepo.findOne({
+      where: { userId, name: 'Cartões', active: true },
+    });
+    if (preferred) return preferred.id;
+    const anyCard = await this.accountsRepo.findOne({
+      where: { userId, type: 'CARD', active: true },
+      order: { id: 'ASC' },
+    });
+    return anyCard?.id ?? null;
+  }
+
+  private assertInstallments(
+    current?: number | null,
+    total?: number | null,
+  ): void {
+    if (current != null && total != null && current > total) {
+      throw new BadRequestException('Parcela atual não pode ser maior que o total');
+    }
+    if ((current == null) !== (total == null)) {
+      throw new BadRequestException('Informe parcela atual e total juntos, ou nenhum');
+    }
   }
 
   private async getById(userId: number, id: number): Promise<EntryEntity> {

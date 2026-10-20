@@ -33,6 +33,20 @@ export class UpdateEntryDto {
   @Type(() => Number)
   @IsInt()
   @Min(1)
+  installmentCurrent?: number | null;
+
+  @IsOptional()
+  @ValidateIf((_, v) => v !== null && v !== undefined)
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  installmentTotal?: number | null;
+
+  @IsOptional()
+  @ValidateIf((_, v) => v !== null && v !== undefined)
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
   accountId?: number | null;
 
   @IsOptional()
