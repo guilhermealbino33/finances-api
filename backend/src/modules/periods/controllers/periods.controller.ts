@@ -31,7 +31,7 @@ export class PeriodsController {
     return this.periodsService.list(user.id, query.year);
   }
 
-  /** Literal `summary` antes de `:year/:month` para evitar ambiguidade. */
+  /** Rotas literais/numéricas antes de `:year/:month` — evita capturar `/periods/:id/entries`. */
   @Get(':id/summary')
   summary(
     @CurrentUser() user: JwtValidatedUser,
@@ -40,7 +40,7 @@ export class PeriodsController {
     return this.periodsService.summary(user.id, id);
   }
 
-  @Get(':year/:month')
+  @Get(':year(\\d+)/:month(\\d+)')
   getByYearMonth(
     @CurrentUser() user: JwtValidatedUser,
     @Param('year', ParseIntPipe) year: number,
