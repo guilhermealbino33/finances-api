@@ -17,7 +17,7 @@ Fluxo de branches: [`docs/GITFLOW.md`](docs/GITFLOW.md).
 | Modelo de domínio (planilha) | #3 | entregue · [`docs/DOMAIN.md`](docs/DOMAIN.md) |
 | Auth JWT | #4 | entregue |
 | Períodos + Caixa | #5 | entregue |
-| Contas e partes | #6 | em progresso |
+| Contas e partes | #6 | entregue |
 | Lançamentos / cartão / parcelas | #7–#9 | TODO |
 | Dashboard do mês + import Excel + resumo anual | #10–#12 | TODO |
 
