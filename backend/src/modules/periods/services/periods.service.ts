@@ -5,16 +5,21 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import type { PeriodResponse, PeriodSummaryResponse } from '@finances/shared';
+import type { EntrySection, PeriodResponse, PeriodSummaryResponse } from '@finances/shared';
+import { EntryEntity } from '../../entries/entities/entry.entity';
 import { PeriodEntity } from '../entities/period.entity';
 import { CreatePeriodDto } from '../dto/create-period.dto';
 import { UpdatePeriodDto } from '../dto/update-period.dto';
+
+type SectionTotals = Record<EntrySection, number>;
 
 @Injectable()
 export class PeriodsService {
   constructor(
     @InjectRepository(PeriodEntity)
     private readonly repo: Repository<PeriodEntity>,
+    @InjectRepository(EntryEntity)
+    private readonly entriesRepo: Repository<EntryEntity>,
   ) {}
 
   async list(userId: number, year?: number): Promise<PeriodResponse[]> {
@@ -67,14 +72,16 @@ export class PeriodsService {
     return this.toResponse(saved);
   }
 
-  /** Stub até #7/#8 — só Caixa entra no saldo; demais totais zerados. */
+  /** Totais derivados (DOMAIN.md). totalCard entra na #8. */
   async summary(userId: number, id: number): Promise<PeriodSummaryResponse> {
     const period = this.toResponse(await this.getById(userId, id));
-    const totalPayables = 0;
-    const totalReceivables = 0;
-    const totalCard = 0;
-    const totalCashOut = 0;
-    const totalOtherIncome = 0;
+    const totals = await this.sumEntriesBySection(userId, id);
+
+    const totalCard = totals.CARD_ITEM + totals.CARD_FIXED;
+    const totalPayables = totals.PAYABLE + totalCard;
+    const totalReceivables = totals.RECEIVABLE;
+    const totalCashOut = totals.CASH_OUT;
+    const totalOtherIncome = totals.OTHER_INCOME;
     const monthBalance = period.caixaBudget - totalPayables + totalReceivables;
     const detailBalance = monthBalance - totalCashOut + totalOtherIncome;
 
@@ -88,6 +95,32 @@ export class PeriodsService {
       monthBalance,
       detailBalance,
     };
+  }
+
+  private async sumEntriesBySection(userId: number, periodId: number): Promise<SectionTotals> {
+    const empty: SectionTotals = {
+      PAYABLE: 0,
+      RECEIVABLE: 0,
+      CARD_ITEM: 0,
+      CARD_FIXED: 0,
+      CASH_OUT: 0,
+      OTHER_INCOME: 0,
+    };
+
+    const rows = await this.entriesRepo
+      .createQueryBuilder('e')
+      .select('e.section', 'section')
+      .addSelect('COALESCE(SUM(e.amount), 0)', 'total')
+      .where('e.user_id = :userId AND e.period_id = :periodId', { userId, periodId })
+      .groupBy('e.section')
+      .getRawMany<{ section: EntrySection; total: string }>();
+
+    for (const row of rows) {
+      if (row.section in empty) {
+        empty[row.section] = Number(row.total);
+      }
+    }
+    return empty;
   }
 
   private toResponse(row: PeriodEntity): PeriodResponse {

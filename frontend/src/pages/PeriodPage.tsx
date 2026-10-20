@@ -1,9 +1,19 @@
-import { useEffect, useState, type FormEvent } from 'react';
+import { useCallback, useEffect, useState, type FormEvent } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import type { PeriodSummaryResponse } from '@finances/shared';
+import {
+  MVP_ENTRY_SECTIONS,
+  type EntryResponse,
+  type MvpEntrySection,
+  type PartyResponse,
+  type PeriodSummaryResponse,
+} from '@finances/shared';
+import { EntrySectionBlock } from '@/components/entries/EntrySectionBlock';
 import { useAuth } from '@/contexts/AuthContext';
+import { listEntries } from '@/lib/entries-api';
+import { MVP_SECTION_META } from '@/lib/entry-labels';
 import { formatBrl, parseBrlInput } from '@/lib/money';
 import { monthLabel } from '@/lib/months';
+import { listParties } from '@/lib/parties-api';
 import { ensurePeriod, getPeriodSummary, updatePeriod } from '@/lib/periods-api';
 import { paths } from '@/paths';
 
@@ -21,11 +31,24 @@ export function PeriodPage() {
   const month = Number(params.month) || fallback.month;
 
   const [summary, setSummary] = useState<PeriodSummaryResponse | null>(null);
+  const [entries, setEntries] = useState<EntryResponse[]>([]);
+  const [parties, setParties] = useState<PartyResponse[]>([]);
   const [caixaInput, setCaixaInput] = useState('');
   const [notes, setNotes] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [loading, setLoading] = useState(true);
+
+  const reloadPeriodData = useCallback(async (periodId: number) => {
+    const [s, list] = await Promise.all([
+      getPeriodSummary(periodId),
+      listEntries(periodId),
+    ]);
+    setSummary(s);
+    setEntries(list);
+    setCaixaInput(String(s.period.caixaBudget).replace('.', ','));
+    setNotes(s.period.notes ?? '');
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -33,12 +56,13 @@ export function PeriodPage() {
     setError(null);
     (async () => {
       try {
-        const period = await ensurePeriod(year, month);
-        const s = await getPeriodSummary(period.id);
+        const [period, partyList] = await Promise.all([
+          ensurePeriod(year, month),
+          listParties(),
+        ]);
         if (cancelled) return;
-        setSummary(s);
-        setCaixaInput(String(s.period.caixaBudget).replace('.', ','));
-        setNotes(s.period.notes ?? '');
+        setParties(partyList);
+        await reloadPeriodData(period.id);
       } catch (err) {
         if (!cancelled) {
           setError(err instanceof Error ? err.message : 'Falha ao carregar período');
@@ -50,7 +74,7 @@ export function PeriodPage() {
     return () => {
       cancelled = true;
     };
-  }, [year, month]);
+  }, [year, month, reloadPeriodData]);
 
   function goTo(nextYear: number, nextMonth: number) {
     navigate(paths.period(nextYear, nextMonth));
@@ -76,14 +100,25 @@ export function PeriodPage() {
         caixaBudget: caixa,
         notes: notes.trim() || null,
       });
-      const s = await getPeriodSummary(summary.period.id);
-      setSummary(s);
-      setCaixaInput(String(s.period.caixaBudget).replace('.', ','));
+      await reloadPeriodData(summary.period.id);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Falha ao salvar');
     } finally {
       setSaving(false);
     }
+  }
+
+  function entriesFor(section: MvpEntrySection): EntryResponse[] {
+    return entries.filter((e) => e.section === section);
+  }
+
+  function sectionTotal(section: MvpEntrySection): number {
+    if (!summary) return 0;
+    if (section === 'PAYABLE') {
+      // Bloco A pagar da UI = só PAYABLE; totalPayables da API inclui Cartões (#8).
+      return entriesFor('PAYABLE').reduce((acc, e) => acc + e.amount, 0);
+    }
+    return summary[MVP_SECTION_META[section].totalKey];
   }
 
   return (
@@ -191,11 +226,9 @@ export function PeriodPage() {
           </form>
 
           <section className="rounded-2xl border border-line bg-surface p-5 shadow-sm">
-            <h2 className="text-sm font-semibold uppercase tracking-wide text-muted">
-              Resumo (stub)
-            </h2>
+            <h2 className="text-sm font-semibold uppercase tracking-wide text-muted">Resumo</h2>
             <p className="mt-1 text-xs text-muted">
-              Totais de lançamentos entram nas próximas issues; saldo atual = Caixa.
+              Fórmulas da planilha; Cartões entram na #8.
             </p>
             <dl className="mt-3 grid grid-cols-[1fr_auto] gap-y-1 text-sm tabular-nums">
               <dt className="text-muted">Caixa</dt>
@@ -206,6 +239,10 @@ export function PeriodPage() {
               <dd>{formatBrl(summary.totalReceivables)}</dd>
               <dt className="text-muted">Cartões</dt>
               <dd>{formatBrl(summary.totalCard)}</dd>
+              <dt className="text-muted">Saídas</dt>
+              <dd>{formatBrl(summary.totalCashOut)}</dd>
+              <dt className="text-muted">Outras entradas</dt>
+              <dd>{formatBrl(summary.totalOtherIncome)}</dd>
               <dt className="font-medium text-ink">Saldo do mês</dt>
               <dd
                 className={
@@ -214,8 +251,22 @@ export function PeriodPage() {
               >
                 {formatBrl(summary.monthBalance)}
               </dd>
+              <dt className="text-muted">Saldo detalhe</dt>
+              <dd>{formatBrl(summary.detailBalance)}</dd>
             </dl>
           </section>
+
+          {MVP_ENTRY_SECTIONS.map((section) => (
+            <EntrySectionBlock
+              key={section}
+              periodId={summary.period.id}
+              section={section}
+              items={entriesFor(section)}
+              parties={parties}
+              sectionTotal={sectionTotal(section)}
+              onChanged={() => reloadPeriodData(summary.period.id)}
+            />
+          ))}
         </>
       )}
     </main>
