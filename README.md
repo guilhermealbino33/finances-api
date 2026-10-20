@@ -23,6 +23,7 @@ Fluxo de branches: [`docs/GITFLOW.md`](docs/GITFLOW.md).
 | Parcelas / recorrências | #9 | TODO |
 | Dashboard do mês | #10 | entregue |
 | Identidade visual (tema + planilha) | #13 | entregue · [`docs/DESIGN.md`](docs/DESIGN.md) |
+| Tema light (default) + dark | #35 | em progresso |
 | Import Excel + resumo anual | #11–#12 | TODO |
 
 Fora do corte inicial: multi-usuário (#14), mobile (#15), sugestões IA (#16); import multi-ano (#25), gráficos (#26–#27); tema light default (#35); app instalável (#36).

@@ -1,6 +1,7 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 import type { PartyResponse } from '@finances/shared';
+import { ThemeToggle } from '@/components/theme/ThemeToggle';
 import { useAuth } from '@/contexts/AuthContext';
 import { createParty, listParties, updateParty } from '@/lib/parties-api';
 import { paths } from '@/paths';
@@ -80,6 +81,7 @@ export function PartiesPage() {
           <Link to={paths.home} className="hover:text-accent">
             Início
           </Link>
+          <ThemeToggle />
           <button type="button" onClick={logout} className="hover:text-accent">
             Sair
           </button>
@@ -110,7 +112,7 @@ export function PartiesPage() {
         <button
           type="submit"
           disabled={saving}
-          className="rounded bg-accent px-4 py-2.5 text-sm font-semibold text-paper disabled:opacity-60"
+          className="rounded bg-accent px-4 py-2.5 text-sm font-semibold text-on-accent disabled:opacity-60"
         >
           {saving ? 'Salvando…' : 'Criar parte'}
         </button>

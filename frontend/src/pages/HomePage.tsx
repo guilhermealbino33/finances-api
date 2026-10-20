@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { ThemeToggle } from '@/components/theme/ThemeToggle';
 import { useAuth } from '@/contexts/AuthContext';
 import { paths } from '@/paths';
 
@@ -22,13 +23,16 @@ export function HomePage() {
             Abra o mês na planilha — Caixa, a pagar, cartões e saldos num único quadro.
           </p>
         </div>
-        <button
-          type="button"
-          onClick={logout}
-          className="shrink-0 rounded border border-line px-3 py-1.5 text-sm text-muted hover:border-accent hover:text-accent"
-        >
-          Sair
-        </button>
+        <div className="flex shrink-0 flex-col items-end gap-2">
+          <ThemeToggle />
+          <button
+            type="button"
+            onClick={logout}
+            className="rounded border border-line px-3 py-1.5 text-sm text-muted hover:border-accent hover:text-accent"
+          >
+            Sair
+          </button>
+        </div>
       </div>
 
       <section className="rounded-xl border border-line bg-surface px-5 py-4 shadow-sheet">
@@ -43,7 +47,7 @@ export function HomePage() {
 
       <Link
         to={currentPeriodPath()}
-        className="rounded-xl bg-accent px-5 py-4 text-center text-sm font-semibold text-paper shadow-sheet"
+        className="rounded-xl bg-accent px-5 py-4 text-center text-sm font-semibold text-on-accent shadow-sheet"
       >
         Abrir mês atual
       </Link>

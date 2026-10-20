@@ -1,6 +1,7 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { ACCOUNT_TYPES, type AccountResponse, type AccountType } from '@finances/shared';
+import { ThemeToggle } from '@/components/theme/ThemeToggle';
 import { useAuth } from '@/contexts/AuthContext';
 import { accountTypeLabel } from '@/lib/account-labels';
 import { createAccount, listAccounts, updateAccount } from '@/lib/accounts-api';
@@ -83,6 +84,7 @@ export function AccountsPage() {
           <Link to={paths.home} className="hover:text-accent">
             Início
           </Link>
+          <ThemeToggle />
           <button type="button" onClick={logout} className="hover:text-accent">
             Sair
           </button>
@@ -127,7 +129,7 @@ export function AccountsPage() {
         <button
           type="submit"
           disabled={saving}
-          className="rounded bg-accent px-4 py-2.5 text-sm font-semibold text-paper disabled:opacity-60"
+          className="rounded bg-accent px-4 py-2.5 text-sm font-semibold text-on-accent disabled:opacity-60"
         >
           {saving ? 'Salvando…' : 'Criar conta'}
         </button>

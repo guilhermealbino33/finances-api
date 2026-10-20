@@ -7,6 +7,7 @@ import type {
   PeriodSummaryResponse,
 } from '@finances/shared';
 import { MonthSheet } from '@/components/period/MonthSheet';
+import { ThemeToggle } from '@/components/theme/ThemeToggle';
 import { useAuth } from '@/contexts/AuthContext';
 import { listAccounts } from '@/lib/accounts-api';
 import { listEntries } from '@/lib/entries-api';
@@ -130,6 +131,7 @@ export function PeriodPage() {
           <Link to={paths.parties} className="hover:text-accent">
             Partes
           </Link>
+          <ThemeToggle />
           <button type="button" onClick={logout} className="hover:text-accent">
             Sair
           </button>

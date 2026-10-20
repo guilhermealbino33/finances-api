@@ -184,7 +184,7 @@ export function MonthSheet({
         <button
           type="submit"
           disabled={savingCaixa}
-          className="rounded bg-accent px-4 py-2 text-sm font-semibold text-paper disabled:opacity-60"
+          className="rounded bg-accent px-4 py-2 text-sm font-semibold text-on-accent disabled:opacity-60"
         >
           {savingCaixa ? '…' : 'Salvar Caixa'}
         </button>
