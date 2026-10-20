@@ -25,7 +25,7 @@ Fluxo de branches: [`docs/GITFLOW.md`](docs/GITFLOW.md).
 | Identidade visual (tema + planilha) | #13 | entregue · [`docs/DESIGN.md`](docs/DESIGN.md) |
 | Import Excel + resumo anual | #11–#12 | TODO |
 
-Fora do corte inicial: multi-usuário (#14), mobile (#15), sugestões IA (#16); import multi-ano (#25), gráficos mês/ano (#26–#27).
+Fora do corte inicial: multi-usuário (#14), mobile (#15), sugestões IA (#16); import multi-ano (#25), gráficos (#26–#27); tema light default (#35); app instalável (#36).
 
 ## Stack
 
