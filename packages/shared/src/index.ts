@@ -238,3 +238,55 @@ export interface UpdatePartyRequest {
   name?: string;
   active?: boolean;
 }
+
+/** Série parcelada / recorrente (#9). */
+export type RecurringSeriesStatus = 'ACTIVE' | 'COMPLETED' | 'CANCELLED';
+export const RECURRING_SERIES_STATUSES: RecurringSeriesStatus[] = [
+  'ACTIVE',
+  'COMPLETED',
+  'CANCELLED',
+];
+
+export interface RecurringSeriesResponse {
+  id: number;
+  name: string;
+  section: EditableEntrySection;
+  accountId: number | null;
+  defaultAmount: number | null;
+  totalInstallments: number | null;
+  nextInstallment: number;
+  dueRule: string | null;
+  status: RecurringSeriesStatus;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CreateRecurringSeriesRequest {
+  name: string;
+  section: EditableEntrySection;
+  accountId?: number | null;
+  defaultAmount?: number | null;
+  totalInstallments?: number | null;
+  nextInstallment?: number;
+  dueRule?: string | null;
+  status?: RecurringSeriesStatus;
+}
+
+export interface UpdateRecurringSeriesRequest {
+  name?: string;
+  section?: EditableEntrySection;
+  accountId?: number | null;
+  defaultAmount?: number | null;
+  totalInstallments?: number | null;
+  nextInstallment?: number;
+  dueRule?: string | null;
+  status?: RecurringSeriesStatus;
+}
+
+export interface MaterializeSeriesResponse {
+  periodId: number;
+  created: number;
+  skipped: number;
+  completed: number;
+  entryIds: number[];
+}

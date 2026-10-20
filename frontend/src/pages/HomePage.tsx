@@ -52,7 +52,7 @@ export function HomePage() {
         Abrir mês atual
       </Link>
 
-      <nav className="grid grid-cols-2 gap-3">
+      <nav className="grid grid-cols-3 gap-3">
         <Link
           to={paths.accounts}
           className="rounded-xl border border-line bg-surface px-4 py-3 text-center text-sm font-medium text-ink hover:border-accent"
@@ -64,6 +64,12 @@ export function HomePage() {
           className="rounded-xl border border-line bg-surface px-4 py-3 text-center text-sm font-medium text-ink hover:border-accent"
         >
           Partes
+        </Link>
+        <Link
+          to={paths.recurring}
+          className="rounded-xl border border-line bg-surface px-4 py-3 text-center text-sm font-medium text-ink hover:border-accent"
+        >
+          Séries
         </Link>
       </nav>
 

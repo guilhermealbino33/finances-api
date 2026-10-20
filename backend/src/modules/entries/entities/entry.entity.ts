@@ -4,6 +4,7 @@ import { BaseEntity } from '../../../shared/entities/base.entity';
 import { AccountEntity } from '../../accounts/entities/account.entity';
 import { PartyEntity } from '../../parties/entities/party.entity';
 import { PeriodEntity } from '../../periods/entities/period.entity';
+import { RecurringSeriesEntity } from '../../recurring/entities/recurring-series.entity';
 import { UserEntity } from '../../users/entities/user.entity';
 
 @Entity('entries')
@@ -64,9 +65,12 @@ export class EntryEntity extends BaseEntity {
   @JoinColumn({ name: 'party_id' })
   party: PartyEntity | null;
 
-  /** FK para RecurringSeries (#9) — coluna reservada. */
   @Column({ name: 'series_id', type: 'int', nullable: true })
   seriesId: number | null;
+
+  @ManyToOne(() => RecurringSeriesEntity, { onDelete: 'SET NULL', nullable: true })
+  @JoinColumn({ name: 'series_id' })
+  series: RecurringSeriesEntity | null;
 
   @Column({ type: 'text', nullable: true })
   notes: string | null;

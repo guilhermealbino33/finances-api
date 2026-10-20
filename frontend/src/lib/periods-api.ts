@@ -5,6 +5,7 @@ import type {
   UpdatePeriodRequest,
 } from '@finances/shared';
 import { apiRequest } from '@/lib/api';
+import { materializeSeries } from '@/lib/recurring-api';
 
 export function listPeriods(year?: number): Promise<PeriodResponse[]> {
   const q = year != null ? `?year=${year}` : '';
@@ -33,7 +34,7 @@ export function getPeriodSummary(id: number): Promise<PeriodSummaryResponse> {
   return apiRequest<PeriodSummaryResponse>(`/periods/${id}/summary`);
 }
 
-/** Busca o mês ou cria com Caixa padrão se ainda não existir. */
+/** Busca o mês ou cria com Caixa padrão; ao criar, materializa séries ativas (#9). */
 export async function ensurePeriod(
   year: number,
   month: number,
@@ -44,6 +45,12 @@ export async function ensurePeriod(
   } catch (err) {
     const msg = err instanceof Error ? err.message : '';
     if (!/não encontrado|404/i.test(msg)) throw err;
-    return createPeriod({ year, month, caixaBudget: defaultCaixa });
+    const period = await createPeriod({ year, month, caixaBudget: defaultCaixa });
+    try {
+      await materializeSeries(period.id);
+    } catch {
+      /* materialize é best-effort na criação */
+    }
+    return period;
   }
 }

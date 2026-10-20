@@ -20,7 +20,7 @@ Fluxo de branches: [`docs/GITFLOW.md`](docs/GITFLOW.md).
 | Contas e partes | #6 | entregue |
 | Lançamentos (A pagar / receber / saídas / outras) | #7 | entregue |
 | Cartões + fixos (linha Cartões derivada) | #8 | entregue |
-| Parcelas / recorrências | #9 | TODO |
+| Parcelas / recorrências | #9 | em progresso |
 | Dashboard do mês | #10 | entregue |
 | Identidade visual (tema + planilha) | #13 | entregue · [`docs/DESIGN.md`](docs/DESIGN.md) |
 | Tema light (default) + dark | #35 | entregue |

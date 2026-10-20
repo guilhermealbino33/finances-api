@@ -8,6 +8,7 @@ import { EntriesModule } from './modules/entries';
 import { HealthModule } from './modules/health';
 import { PartiesModule } from './modules/parties';
 import { PeriodsModule } from './modules/periods';
+import { RecurringModule } from './modules/recurring';
 import { SeedModule } from './modules/seed/seed.module';
 import { UsersModule } from './modules/users';
 
@@ -24,8 +25,9 @@ import { UsersModule } from './modules/users';
     }),
     UsersModule,
     AuthModule,
-    // Entries antes de Periods: `/periods/:id/entries` não pode perder para `:year/:month`.
+    // Entries/Recurring antes de Periods: rotas `/periods/:id/...` literais.
     EntriesModule,
+    RecurringModule,
     PeriodsModule,
     AccountsModule,
     PartiesModule,
