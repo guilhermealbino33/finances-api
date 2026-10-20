@@ -24,10 +24,11 @@ import { UsersModule } from './modules/users';
     }),
     UsersModule,
     AuthModule,
+    // Entries antes de Periods: `/periods/:id/entries` não pode perder para `:year/:month`.
+    EntriesModule,
     PeriodsModule,
     AccountsModule,
     PartiesModule,
-    EntriesModule,
     SeedModule,
     HealthModule,
   ],
