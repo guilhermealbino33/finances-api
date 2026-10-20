@@ -69,12 +69,30 @@ Implementação: CSS variables em `data-theme` + Tailwind (`var(--color-*)`).
 
 ## Layout do mês (planilha)
 
-Uma **única superfície** (`surface`) com grade:
+Espelha a planilha Financeiro — **uma superfície**, **duas colunas**:
 
-1. Faixa topo: Caixa editável + totais (A pagar, A receber, Saldo)
-2. Blocos empilhados: A pagar → A receber → Cartões → Fixos → Saídas → Outras entradas
-3. Cada bloco = cabeçalho + linhas + linha “nova”
-4. Sem cards separados por bloco
+```text
+┌─────────────────────┬──────────┬─────────────────────┐
+│ A pagar             │  Caixa   │ A receber           │
+├─────────────────────┴──────────┴─────────────────────┤
+│     Total a pagar (vermelho) │ Total a receber (verde)│
+├──────────────────────────────┬───────────────────────┤
+│ Cartões                      │ Saídas (dinheiro)     │
+├──────────────────────────────┼───────────────────────┤
+│ Fixos (cartão)               │ Outras entradas       │
+├──────────────────────────────┴───────────────────────┤
+│ Obrigações líq. │ Saldo do mês │ Saldo detalhe       │
+└──────────────────────────────────────────────────────┘
+```
+
+Normas aplicadas (tabelas densas / finanças):
+
+- Números à direita + `tabular-nums` / mono
+- Texto à esquerda; cabeçalhos `scope` + `caption` (sr-only)
+- Zebra suave nas linhas; total por bloco no `tfoot`
+- Linha Cartões em A pagar = **derivada** (não editável)
+- Faixa central: pagar em `danger`, receber em `accent`
+- Densidade compacta; scroll horizontal nomeado se a tabela estreitar
 
 ## Shell autenticado
 

@@ -51,9 +51,22 @@ body {
   color: var(--color-ink);
 }
 
+/* Screen-reader only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 @layer components {
   .sheet-input {
-    @apply w-full bg-transparent px-2 py-1.5 text-sm text-ink outline-none;
+    @apply w-full bg-transparent px-2 py-1 text-sm text-ink outline-none;
   }
   .sheet-input::placeholder {
     color: var(--color-muted);
