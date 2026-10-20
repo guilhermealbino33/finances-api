@@ -15,8 +15,9 @@ Fluxo de branches: [`docs/GITFLOW.md`](docs/GITFLOW.md).
 | Bootstrap monorepo | #1 | entregue |
 | GitFlow + Kanban | #2 | entregue |
 | Modelo de domínio (planilha) | #3 | entregue · [`docs/DOMAIN.md`](docs/DOMAIN.md) |
-| Auth JWT | #4 | em progresso |
-| Períodos / Caixa / lançamentos / cartão / parcelas | #5–#9 | TODO |
+| Auth JWT | #4 | entregue |
+| Períodos + Caixa | #5 | em progresso |
+| Lançamentos / cartão / parcelas | #6–#9 | TODO |
 | Dashboard do mês + import Excel + resumo anual | #10–#12 | TODO |
 
 Fora do corte inicial: multi-usuário (#14), mobile (#15), sugestões IA (#16).

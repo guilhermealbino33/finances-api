@@ -1,28 +1,14 @@
-import { useEffect, useState } from 'react';
-import { APP_NAME, type HealthResponse } from '@finances/shared';
+import { Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import { fetchHealth } from '@/lib/health-api';
+import { paths } from '@/paths';
+
+function currentPeriodPath(): string {
+  const now = new Date();
+  return paths.period(now.getFullYear(), now.getMonth() + 1);
+}
 
 export function HomePage() {
   const { user, logout } = useAuth();
-  const [health, setHealth] = useState<HealthResponse | null>(null);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    let cancelled = false;
-    fetchHealth()
-      .then((data) => {
-        if (!cancelled) setHealth(data);
-      })
-      .catch((err: unknown) => {
-        if (!cancelled) {
-          setError(err instanceof Error ? err.message : 'Falha ao consultar a API');
-        }
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, []);
 
   return (
     <main className="mx-auto flex min-h-screen max-w-lg flex-col justify-center gap-6 px-6 py-16">
@@ -33,8 +19,7 @@ export function HomePage() {
             Olá, {user?.name.split(' ')[0] ?? 'você'}
           </h1>
           <p className="mt-3 text-muted">
-            Sessão autenticada (<code className="text-ink">{APP_NAME}</code>). Domínio da planilha
-            nas próximas issues.
+            Organize o mês como na planilha — comece pelo período e o valor de Caixa.
           </p>
         </div>
         <button
@@ -56,21 +41,12 @@ export function HomePage() {
         </dl>
       </section>
 
-      <section className="rounded-2xl border border-line bg-surface p-5 shadow-sm">
-        <h2 className="text-sm font-semibold uppercase tracking-wide text-muted">API health</h2>
-        {error && <p className="mt-3 text-sm text-red-700">{error}</p>}
-        {!error && !health && <p className="mt-3 text-sm text-muted">Consultando…</p>}
-        {health && (
-          <dl className="mt-3 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-sm">
-            <dt className="text-muted">status</dt>
-            <dd className="font-medium text-accent">{health.status}</dd>
-            <dt className="text-muted">service</dt>
-            <dd>{health.service}</dd>
-            <dt className="text-muted">version</dt>
-            <dd>{health.version}</dd>
-          </dl>
-        )}
-      </section>
+      <Link
+        to={currentPeriodPath()}
+        className="rounded-2xl bg-accent px-5 py-4 text-center text-sm font-semibold text-white shadow-sm"
+      >
+        Abrir mês atual
+      </Link>
 
       <p className="text-xs text-muted">web v{__APP_VERSION__}</p>
     </main>

@@ -4,6 +4,7 @@ import { CrosscuttingConfigModule } from './crosscutting/config';
 import { AppDataSource } from './crosscutting/database/data-source';
 import { AuthModule } from './modules/auth';
 import { HealthModule } from './modules/health';
+import { PeriodsModule } from './modules/periods';
 import { SeedModule } from './modules/seed/seed.module';
 import { UsersModule } from './modules/users';
 
@@ -20,6 +21,7 @@ import { UsersModule } from './modules/users';
     }),
     UsersModule,
     AuthModule,
+    PeriodsModule,
     SeedModule,
     HealthModule,
   ],

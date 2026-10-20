@@ -35,7 +35,7 @@ export function clearSession(): void {
   localStorage.removeItem(USER_KEY);
 }
 
-async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
+export async function apiRequest<T>(path: string, init: RequestInit = {}): Promise<T> {
   const headers = new Headers(init.headers);
   if (!headers.has('Content-Type') && init.body) {
     headers.set('Content-Type', 'application/json');
@@ -64,12 +64,12 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
 }
 
 export function apiLogin(email: string, password: string): Promise<LoginResponse> {
-  return request<LoginResponse>('/auth/login', {
+  return apiRequest<LoginResponse>('/auth/login', {
     method: 'POST',
     body: JSON.stringify({ email, password }),
   });
 }
 
 export function apiMe(): Promise<AuthUser> {
-  return request<AuthUser>('/auth/me');
+  return apiRequest<AuthUser>('/auth/me');
 }
