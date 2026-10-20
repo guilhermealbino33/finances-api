@@ -11,7 +11,8 @@ Espelha as técnicas dos monorepos **Giro Auto** / **Connect 3D Things**: npm wo
 | Persistência | TypeORM + migrations | Fonte de verdade; `synchronize: false` |
 | Auth | JWT (issue #4) | Uso pessoal agora; multi-user depois |
 | Mobile | Fora do MVP (#15) | Localhost web primeiro |
-| Domínio | Modelado a partir da planilha Excel (#3) | A pagar / Caixa / A receber / cartão / parcelas |
+| Domínio | Modelado a partir da planilha Excel | Ver [`DOMAIN.md`](./DOMAIN.md) (#3) |
+| Escopo usuário | Single-user + `userId` no MVP | `organizationId` no backlog (#14) |
 
 ## Portas locais
 
@@ -50,10 +51,33 @@ finances-api/
         └── src/index.ts
 ```
 
-## Contratos HTTP (bootstrap)
+## Contratos HTTP
 
 Prefixo global: `/api`
 
 - `GET /api/health` — público; `{ status, service, version, timestamp }`
 
-Módulos de domínio (auth, períodos, lançamentos, import) entram nas issues seguintes.
+Rascunho dos módulos de domínio (periods, entries, import, etc.): [`DOMAIN.md`](./DOMAIN.md#contratos-http-sugeridos-rascunho).
+
+## Módulos de domínio (alvo)
+
+```mermaid
+flowchart LR
+  Web[frontend] --> API[backend /api]
+  API --> Auth[auth]
+  API --> Periods[periods]
+  API --> Entries[entries]
+  API --> Recurring[recurring]
+  API --> Import[import]
+  Periods --> PG[(PostgreSQL)]
+  Entries --> PG
+```
+
+| Módulo | Issue | Responsabilidade |
+|---|---|---|
+| `auth` / `users` | #4 | JWT + `userId` |
+| `periods` | #5 | Meses + Caixa + summary |
+| `accounts` / `parties` | #6 | Contas e pessoas |
+| `entries` | #7–#8 | Lançamentos + Cartões derivado |
+| `recurring` | #9 | Parcelas / recorrências |
+| `import` | #11 | Excel → Period/Entry |

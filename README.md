@@ -13,8 +13,8 @@ Fluxo de branches: [`docs/GITFLOW.md`](docs/GITFLOW.md).
 | Capacidade | Issue | Status |
 |---|---|---|
 | Bootstrap monorepo | #1 | entregue |
-| GitFlow + Kanban | #2 | em progresso |
-| Modelo de domínio (planilha) | #3 | TODO |
+| GitFlow + Kanban | #2 | entregue |
+| Modelo de domínio (planilha) | #3 | em progresso · [`docs/DOMAIN.md`](docs/DOMAIN.md) |
 | Auth JWT | #4 | TODO |
 | Períodos / Caixa / lançamentos / cartão / parcelas | #5–#9 | TODO |
 | Dashboard do mês + import Excel + resumo anual | #10–#12 | TODO |
@@ -38,7 +38,7 @@ Monorepo **npm workspaces** com monólito modular NestJS:
 - TypeORM com `synchronize: false` + migrations explícitas
 - Pacote `packages/shared` como contrato de tipos
 
-Detalhes: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
+Detalhes: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) · domínio da planilha: [`docs/DOMAIN.md`](docs/DOMAIN.md).
 
 ### Estrutura alvo
 
