@@ -48,6 +48,21 @@ export function HomePage() {
         Abrir mês atual
       </Link>
 
+      <nav className="grid grid-cols-2 gap-3">
+        <Link
+          to={paths.accounts}
+          className="rounded-2xl border border-line bg-surface px-4 py-3 text-center text-sm font-medium text-ink shadow-sm hover:border-accent"
+        >
+          Contas
+        </Link>
+        <Link
+          to={paths.parties}
+          className="rounded-2xl border border-line bg-surface px-4 py-3 text-center text-sm font-medium text-ink shadow-sm hover:border-accent"
+        >
+          Partes
+        </Link>
+      </nav>
+
       <p className="text-xs text-muted">web v{__APP_VERSION__}</p>
     </main>
   );

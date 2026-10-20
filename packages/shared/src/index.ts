@@ -67,3 +67,47 @@ export interface PeriodSummaryResponse {
   monthBalance: number;
   detailBalance: number;
 }
+
+/** Conta financeira (#6) — classifica lançamentos. */
+export type AccountType = 'CARD' | 'CASH' | 'BANK' | 'OTHER';
+export const ACCOUNT_TYPES: AccountType[] = ['CARD', 'CASH', 'BANK', 'OTHER'];
+
+export interface AccountResponse {
+  id: number;
+  name: string;
+  type: AccountType;
+  active: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CreateAccountRequest {
+  name: string;
+  type: AccountType;
+  active?: boolean;
+}
+
+export interface UpdateAccountRequest {
+  name?: string;
+  type?: AccountType;
+  active?: boolean;
+}
+
+/** Pessoa envolvida em A receber (#6). */
+export interface PartyResponse {
+  id: number;
+  name: string;
+  active: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CreatePartyRequest {
+  name: string;
+  active?: boolean;
+}
+
+export interface UpdatePartyRequest {
+  name?: string;
+  active?: boolean;
+}
