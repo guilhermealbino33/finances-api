@@ -15,6 +15,7 @@ import { parseBrlInput } from '@/lib/money';
 import { monthLabel } from '@/lib/months';
 import { listParties } from '@/lib/parties-api';
 import { ensurePeriod, getPeriodSummary, updatePeriod } from '@/lib/periods-api';
+import { materializeSeries } from '@/lib/recurring-api';
 import { paths } from '@/paths';
 
 function currentYearMonth(): { year: number; month: number } {
@@ -38,7 +39,9 @@ export function PeriodPage() {
   const [notes, setNotes] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+  const [materializing, setMaterializing] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [info, setInfo] = useState<string | null>(null);
 
   const reloadPeriodData = useCallback(async (periodId: number) => {
     const [s, list] = await Promise.all([
@@ -111,6 +114,24 @@ export function PeriodPage() {
     }
   }
 
+  async function onMaterialize() {
+    if (!summary) return;
+    setMaterializing(true);
+    setError(null);
+    setInfo(null);
+    try {
+      const result = await materializeSeries(summary.period.id);
+      setInfo(
+        `Séries: ${result.created} criadas · ${result.skipped} ignoradas · ${result.completed} concluídas`,
+      );
+      await reloadPeriodData(summary.period.id);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Falha ao materializar séries');
+    } finally {
+      setMaterializing(false);
+    }
+  }
+
   return (
     <main className="mx-auto flex min-h-screen max-w-6xl flex-col gap-4 px-3 py-6 sm:px-5">
       <header className="flex flex-wrap items-end justify-between gap-3">
@@ -166,6 +187,9 @@ export function PeriodPage() {
             <Link to={paths.parties} className="hover:text-accent">
               Partes
             </Link>
+            <Link to={paths.recurring} className="hover:text-accent">
+              Séries
+            </Link>
             <ThemeToggle />
             <button type="button" onClick={logout} className="hover:text-accent" title={user?.email}>
               Sair
@@ -180,8 +204,24 @@ export function PeriodPage() {
           {error}
         </p>
       )}
+      {info && (
+        <p className="rounded border border-accent/40 bg-accent-dim px-3 py-2 text-sm text-ink" role="status">
+          {info}
+        </p>
+      )}
 
       {summary && !loading && (
+        <>
+        <div className="flex justify-end">
+          <button
+            type="button"
+            onClick={onMaterialize}
+            disabled={materializing}
+            className="rounded border border-line px-3 py-1.5 text-sm text-ink hover:border-accent disabled:opacity-60"
+          >
+            {materializing ? 'Materializando…' : 'Materializar séries ativas'}
+          </button>
+        </div>
         <MonthSheet
           periodId={summary.period.id}
           summary={summary}
@@ -196,6 +236,7 @@ export function PeriodPage() {
           onSaveCaixa={onSave}
           onChanged={() => reloadPeriodData(summary.period.id)}
         />
+        </>
       )}
     </main>
   );

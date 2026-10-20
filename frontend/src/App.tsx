@@ -5,6 +5,7 @@ import { HomePage } from '@/pages/HomePage';
 import { LoginPage } from '@/pages/LoginPage';
 import { PartiesPage } from '@/pages/PartiesPage';
 import { PeriodPage } from '@/pages/PeriodPage';
+import { RecurringPage } from '@/pages/RecurringPage';
 import { paths } from '@/paths';
 
 export default function App() {
@@ -15,6 +16,7 @@ export default function App() {
         <Route path={paths.home} element={<HomePage />} />
         <Route path={paths.accounts} element={<AccountsPage />} />
         <Route path={paths.parties} element={<PartiesPage />} />
+        <Route path={paths.recurring} element={<RecurringPage />} />
         <Route path="/meses/:year/:month" element={<PeriodPage />} />
       </Route>
       <Route path="*" element={<Navigate to={paths.home} replace />} />
