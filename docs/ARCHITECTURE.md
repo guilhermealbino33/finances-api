@@ -57,6 +57,7 @@ Prefixo global: `/api`
 
 - `GET /api/health` — público; `{ status, service, version, timestamp }`
 - `POST /api/auth/login` · `GET /api/auth/me` (Bearer) — #4
+- `GET|POST /api/periods` · `GET /api/periods/:year/:month` · `PATCH /api/periods/:id` · `GET /api/periods/:id/summary` — #5
 
 Rascunho dos módulos de domínio (periods, entries, import, etc.): [`DOMAIN.md`](./DOMAIN.md#contratos-http-sugeridos-rascunho).
 
