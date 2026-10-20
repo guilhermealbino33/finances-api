@@ -54,8 +54,8 @@ export interface UpdatePeriodRequest {
 }
 
 /**
- * Totais do mês. Até existirem lançamentos (#7+), campos de entries ficam zerados.
- * Fórmulas: ver docs/DOMAIN.md
+ * Totais do mês. Fórmulas: docs/DOMAIN.md
+ * totalCard (#8) entra em totalPayables quando existir.
  */
 export interface PeriodSummaryResponse {
   period: PeriodResponse;
@@ -66,6 +66,73 @@ export interface PeriodSummaryResponse {
   totalOtherIncome: number;
   monthBalance: number;
   detailBalance: number;
+}
+
+/** Sections de Entry — varchar na API / DB. */
+export type EntrySection =
+  | 'PAYABLE'
+  | 'RECEIVABLE'
+  | 'CARD_ITEM'
+  | 'CARD_FIXED'
+  | 'CASH_OUT'
+  | 'OTHER_INCOME';
+
+export const ENTRY_SECTIONS: EntrySection[] = [
+  'PAYABLE',
+  'RECEIVABLE',
+  'CARD_ITEM',
+  'CARD_FIXED',
+  'CASH_OUT',
+  'OTHER_INCOME',
+];
+
+/** Blocos editáveis na #7 (Cartões/Fixos entram na #8). */
+export type MvpEntrySection = 'PAYABLE' | 'RECEIVABLE' | 'CASH_OUT' | 'OTHER_INCOME';
+export const MVP_ENTRY_SECTIONS: MvpEntrySection[] = [
+  'PAYABLE',
+  'RECEIVABLE',
+  'CASH_OUT',
+  'OTHER_INCOME',
+];
+
+export interface EntryResponse {
+  id: number;
+  periodId: number;
+  section: EntrySection;
+  description: string;
+  amount: number;
+  dueLabel: string | null;
+  installmentCurrent: number | null;
+  installmentTotal: number | null;
+  accountId: number | null;
+  partyId: number | null;
+  seriesId: number | null;
+  notes: string | null;
+  sortOrder: number | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CreateEntryRequest {
+  periodId: number;
+  section: MvpEntrySection;
+  description: string;
+  amount: number;
+  dueLabel?: string | null;
+  accountId?: number | null;
+  partyId?: number | null;
+  notes?: string | null;
+  sortOrder?: number | null;
+}
+
+export interface UpdateEntryRequest {
+  description?: string;
+  amount?: number;
+  dueLabel?: string | null;
+  accountId?: number | null;
+  partyId?: number | null;
+  notes?: string | null;
+  sortOrder?: number | null;
 }
 
 /** Conta financeira (#6) — classifica lançamentos. */

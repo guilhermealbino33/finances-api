@@ -49,8 +49,11 @@ async function bootstrap() {
 
   await app.listen(srv.port, '0.0.0.0');
   console.log(`Finances API listening on http://0.0.0.0:${srv.port}/api`);
-  console.log('Routes: /api/health · /api/auth/* · /api/periods/* · /api/accounts/* · /api/parties/*');
+  console.log(
+    'Routes: /api/health · /api/auth/* · /api/periods/* · /api/accounts/* · /api/parties/* · /api/entries/*',
+  );
 }
+
 
 bootstrap().catch((err) => {
   console.error('Failed to bootstrap Finances API', err);
