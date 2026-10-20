@@ -4,13 +4,16 @@
 
 Controle **financeiro pessoal** (web + API) inspirado na planilha mensal *Financeiro*, no padrão de monorepo **Giro Auto / Connect 3D Things**.
 
-Planejamento: [GitHub Project — Finances — MVP](https://github.com/users/guilhermealbino33/projects/9) · Issues do repositório.
+Planejamento: [GitHub Project — Finances — MVP](https://github.com/users/guilhermealbino33/projects/9) · [Issues](https://github.com/guilhermealbino33/finances-api/issues).
+
+Fluxo de branches: [`docs/GITFLOW.md`](docs/GITFLOW.md).
 
 ## MVP (corte)
 
 | Capacidade | Issue | Status |
 |---|---|---|
-| Bootstrap monorepo | #1 | em progresso |
+| Bootstrap monorepo | #1 | entregue |
+| GitFlow + Kanban | #2 | em progresso |
 | Modelo de domínio (planilha) | #3 | TODO |
 | Auth JWT | #4 | TODO |
 | Períodos / Caixa / lançamentos / cartão / parcelas | #5–#9 | TODO |
@@ -68,4 +71,9 @@ npm run frontend:dev     # http://localhost:8081
 
 ## Fluxo de trabalho
 
-GitFlow simplificado: branches `feature/#N/slug` a partir de `develop`, PR → `develop`. Ver issue #2 para `docs/GITFLOW.md`.
+GitFlow simplificado — detalhes em [`docs/GITFLOW.md`](docs/GITFLOW.md):
+
+1. Pegar issue no [Project](https://github.com/users/guilhermealbino33/projects/9) → **In Progress**
+2. Branch a partir de `develop`: `<tipo>/#N/slug-kebab`
+3. PR com base **`develop`** e `Closes #N`
+4. Merge só após review; depois branch removida e item → **Done**
