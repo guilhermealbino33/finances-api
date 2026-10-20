@@ -7,6 +7,7 @@ import type {
   PeriodSummaryResponse,
 } from '@finances/shared';
 import { MonthSheet } from '@/components/period/MonthSheet';
+import { ThemeToggle } from '@/components/theme/ThemeToggle';
 import { useAuth } from '@/contexts/AuthContext';
 import { listAccounts } from '@/lib/accounts-api';
 import { listEntries } from '@/lib/entries-api';
@@ -111,42 +112,25 @@ export function PeriodPage() {
   }
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-5xl flex-col gap-5 px-4 py-8 sm:px-6">
-      <header className="flex flex-wrap items-start justify-between gap-4">
+    <main className="mx-auto flex min-h-screen max-w-6xl flex-col gap-4 px-3 py-6 sm:px-5">
+      <header className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-accent">Finances</p>
-          <h1 className="mt-1 text-3xl font-semibold tracking-tight text-ink">
+          <h1 className="mt-0.5 text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
             {monthLabel(month)} {year}
           </h1>
-          <p className="mt-1 text-sm text-muted">{user?.email}</p>
         </div>
-        <nav className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted">
-          <Link to={paths.home} className="hover:text-accent">
-            Início
-          </Link>
-          <Link to={paths.accounts} className="hover:text-accent">
-            Contas
-          </Link>
-          <Link to={paths.parties} className="hover:text-accent">
-            Partes
-          </Link>
-          <button type="button" onClick={logout} className="hover:text-accent">
-            Sair
+        <div className="flex flex-wrap items-center gap-2">
+          <button
+            type="button"
+            onClick={() => shiftMonth(-1)}
+            className="rounded border border-line px-2.5 py-1 text-sm text-ink hover:border-accent"
+            aria-label="Mês anterior"
+          >
+            ←
           </button>
-        </nav>
-      </header>
-
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <button
-          type="button"
-          onClick={() => shiftMonth(-1)}
-          className="rounded border border-line px-3 py-1.5 text-sm text-ink hover:border-accent hover:text-accent"
-        >
-          ← Anterior
-        </button>
-        <div className="flex gap-2">
           <select
-            className="rounded border border-line bg-surface px-2 py-1.5 text-sm text-ink"
+            className="rounded border border-line bg-surface px-2 py-1 text-sm text-ink"
             value={month}
             onChange={(e) => goTo(year, Number(e.target.value))}
             aria-label="Mês"
@@ -158,21 +142,37 @@ export function PeriodPage() {
             ))}
           </select>
           <input
-            className="w-20 rounded border border-line bg-surface px-2 py-1.5 text-sm text-ink"
+            className="w-16 rounded border border-line bg-surface px-2 py-1 text-sm text-ink"
             type="number"
             value={year}
             onChange={(e) => goTo(Number(e.target.value) || year, month)}
             aria-label="Ano"
           />
+          <button
+            type="button"
+            onClick={() => shiftMonth(1)}
+            className="rounded border border-line px-2.5 py-1 text-sm text-ink hover:border-accent"
+            aria-label="Próximo mês"
+          >
+            →
+          </button>
+          <nav className="ml-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted">
+            <Link to={paths.home} className="hover:text-accent">
+              Início
+            </Link>
+            <Link to={paths.accounts} className="hover:text-accent">
+              Contas
+            </Link>
+            <Link to={paths.parties} className="hover:text-accent">
+              Partes
+            </Link>
+            <ThemeToggle />
+            <button type="button" onClick={logout} className="hover:text-accent" title={user?.email}>
+              Sair
+            </button>
+          </nav>
         </div>
-        <button
-          type="button"
-          onClick={() => shiftMonth(1)}
-          className="rounded border border-line px-3 py-1.5 text-sm text-ink hover:border-accent hover:text-accent"
-        >
-          Próximo →
-        </button>
-      </div>
+      </header>
 
       {loading && <p className="text-sm text-muted">Carregando planilha do mês…</p>}
       {error && (

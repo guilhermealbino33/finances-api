@@ -6,36 +6,30 @@ export const SECTION_META: Record<
 > = {
   PAYABLE: {
     title: 'A pagar',
-    hint: 'Obrigações do mês. Linha Cartões é calculada (não editável).',
+    hint: 'Linha Cartões é soma automática.',
   },
   RECEIVABLE: {
     title: 'A receber',
-    hint: 'Opcional: vincular uma parte (Gui, Udo…).',
+    hint: 'Quem deve / o quê.',
   },
   CARD_ITEM: {
     title: 'Cartões',
-    hint: 'Itens da fatura (compras, Geral, parcelas).',
+    hint: 'Fatura (ex-Nubank).',
   },
   CARD_FIXED: {
     title: 'Fixos (cartão)',
-    hint: 'Assinaturas e fixos cobrados no cartão.',
+    hint: 'Fixos cobrados no cartão.',
   },
   CASH_OUT: {
-    title: 'Saídas',
-    hint: 'Saídas em dinheiro.',
+    title: 'Saídas (dinheiro)',
+    hint: 'Saídas em espécie.',
   },
   OTHER_INCOME: {
     title: 'Outras entradas',
-    hint: 'Benefícios e entradas extras.',
+    hint: 'Benefícios e extras.',
   },
 };
 
-/** Ordem visual do dashboard (mapa mental da planilha). */
-export const DASHBOARD_SECTIONS: EditableEntrySection[] = [
-  'PAYABLE',
-  'RECEIVABLE',
-  'CARD_ITEM',
-  'CARD_FIXED',
-  'CASH_OUT',
-  'OTHER_INCOME',
-];
+/** Layout planilha: esquerda / direita (2×3). */
+export const SHEET_LEFT: EditableEntrySection[] = ['PAYABLE', 'CARD_ITEM', 'CARD_FIXED'];
+export const SHEET_RIGHT: EditableEntrySection[] = ['RECEIVABLE', 'CASH_OUT', 'OTHER_INCOME'];
