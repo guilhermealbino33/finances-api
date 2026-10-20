@@ -1,0 +1,22 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: finances-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: finances
+      POSTGRES_PASSWORD: finances
+      POSTGRES_DB: finances
+    ports:
+      # 5446 evita conflito com connect-3d (5445), giro-auto (5444) e Postgres local (5432)
+      - '5446:5432'
+    volumes:
+      - finances_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U finances -d finances']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  finances_pg:
