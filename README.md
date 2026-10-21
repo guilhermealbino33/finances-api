@@ -24,7 +24,8 @@ Fluxo de branches: [`docs/GITFLOW.md`](docs/GITFLOW.md).
 | Dashboard do mês | #10 | entregue |
 | Identidade visual (tema + planilha) | #13 | entregue · [`docs/DESIGN.md`](docs/DESIGN.md) |
 | Tema light (default) + dark | #35 | entregue |
-| Import Excel + resumo anual | #11–#12 | TODO |
+| Import Excel (.xlsx) | #11 | entregue · [`docs/IMPORT.md`](docs/IMPORT.md) |
+| Resumo anual | #12 | TODO |
 
 Fora do corte inicial: multi-usuário (#14), mobile (#15), sugestões IA (#16); import multi-ano (#25), gráficos (#26–#27); tema light default (#35); app instalável (#36).
 
@@ -90,6 +91,12 @@ No boot da API, se ainda não existirem (idempotente):
 Sobrescreva com `SEED_USER_*` / `JWT_SECRET` em `backend/.env` (ver `.env.example`).
 
 Telas: `/contas` e `/partes` (API `GET/POST/PATCH /api/accounts` e `/api/parties`).
+
+### Import da planilha Excel
+
+`POST /api/import/xlsx` (multipart `file`) — preview por padrão; `?commit=true` grava com replace por mês.
+
+Heurísticas e curl: [`docs/IMPORT.md`](docs/IMPORT.md).
 
 ## Fluxo de trabalho
 

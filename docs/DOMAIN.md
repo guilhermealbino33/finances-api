@@ -242,6 +242,7 @@ Prefixo: `/api`. Rotas de domínio exigem Bearer (#4). `GET /api/health` permane
 
 ### Import (#11)
 - `POST /api/import/xlsx` — dry-run + commit (cabeçalhos legados “Nubank” → Cartões)
+- Heurísticas: [`IMPORT.md`](./IMPORT.md)
 
 ### Annual (#12)
 - `GET /api/periods/summary?year=2026`
