@@ -238,3 +238,32 @@ export interface UpdatePartyRequest {
   name?: string;
   active?: boolean;
 }
+
+/** Preview / commit do import Excel (#11). */
+export type ImportMode = 'preview' | 'commit';
+
+export interface ImportPeriodPreview {
+  year: number;
+  month: number;
+  sheetName: string;
+  caixaBudget: number;
+  entryCount: number;
+  countsBySection: EntrySectionSums;
+  warnings: string[];
+  /** No commit: id do Period upsertado. */
+  periodId?: number;
+  /** No commit: entries removidas (estratégia replace). */
+  replacedEntries?: number;
+}
+
+export interface ImportXlsxResponse {
+  mode: ImportMode;
+  /** Idempotência: replace = apaga entries do mês e reinsere. */
+  strategy: 'replace';
+  periods: ImportPeriodPreview[];
+  totals: {
+    periods: number;
+    entries: number;
+    bySection: EntrySectionSums;
+  };
+}

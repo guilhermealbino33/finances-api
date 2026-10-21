@@ -82,4 +82,4 @@ flowchart LR
 | `accounts` / `parties` | #6 | Contas e pessoas |
 | `entries` | #7–#8 | Lançamentos + Cartões derivado |
 | `recurring` | #9 | Parcelas / recorrências |
-| `import` | #11 | Excel → Period/Entry |
+| `import` | #11 | Excel → Period/Entry · [`IMPORT.md`](./IMPORT.md) |
